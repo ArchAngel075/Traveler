@@ -55,14 +55,6 @@ function SolverClass:SetG_Alpha(alpha)
   end
 end
 
---[[
-  grass    : 2
-  air      : 1
-  mountain : 5
-  A : 2,5,1
-  B : 5
---]]
-
 function SolverClass:AddTag(Tag)
   self.tags[Tag] = true
 end
