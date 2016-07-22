@@ -1,6 +1,5 @@
 local folderOfThisFile = (...):match("(.-)[^%.]+$")
 local class = require (folderOfThisFile .. "30log")
-local mlib = require (folderOfThisFile .. "mlib")
 
 local SolverClass = class("Archis.Traveler.Solver")
 

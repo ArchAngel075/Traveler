@@ -1,5 +1,4 @@
 if arg[#arg] == "-debug" then require("mobdebug").start() end
-local mlib = require ("traveler.mlib")
 local traveler = require("traveler")
 local MyWorld = traveler:newWorld(8,6)
 local MySolver = traveler:newSolver(MyWorld,{3,3},{7,3})
