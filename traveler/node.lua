@@ -7,6 +7,8 @@ NodeClass.position_x = nil
 NodeClass.position_y = nil
 NodeClass.tags = nil
 NodeClass.H,NodeClass.G,NodeClass.F = 0,0,0
+NodeClass.G_Alpha = 0.5
+NodeClass.InternalGCost = 0
 --G is measured in Units
 NodeClass.ParentNode = nil
 NodeClass.Traveler = nil
@@ -25,8 +27,16 @@ function NodeClass:AddNeighbor(Node)
   self.neighbors[#self.neighbors+1] = Node
 end
 
-function NodeClass:AddTag(Tag)
-  self.tags[Tag] = true
+function NodeClass:SetInternalG(cost)
+  self.InternalGCost = cost
+end
+
+function NodeClass:GetInternalG()
+  return self.InternalGCost
+end
+
+function NodeClass:AddTag(Tag,cost)
+  self.tags[Tag] = cost or 0
 end
 
 function NodeClass:RemoveTag(Tag)
@@ -38,9 +48,9 @@ function NodeClass:CompareTag(Tag)
 end
 
 function NodeClass:CalculateG(alpha,override_parent)
-  alpha = alpha or 1
-  alpha = alpha
-  return 10 + alpha * (self:_CalculateG(override_parent) - 10)
+  alpha = alpha or self.G_Alpha
+  alpha = (alpha)
+  return 1 + alpha * (self:_CalculateG(override_parent) - 1)
 end
 
 function NodeClass:GetG()
@@ -70,14 +80,19 @@ function NodeClass:GetH()
 end
 
 function NodeClass:_CalculateG(override_parent)
+  local internalCost = 0
+  for k,v in pairs(self.tags) do
+    internalCost = internalCost + v
+  end
+  internalCost = internalCost + self.InternalGCost
   local parent = override_parent or self.ParentNode or false
   if(parent) then
     if(class.isInstance(parent,self.Traveler.Node)) then
       local isCorner = self:IsNodeCorner(parent)
       if(isCorner) then
-        return (parent:GetG()+14)
+        return (parent:GetG()+(2*internalCost))
       else
-        return (parent:GetG()+10)
+        return (parent:GetG()+(1*internalCost))
       end
     else
       error("Invalid type for 'override_parent', expected " .. tostring(self.Traveler.Node) .. "| got " .. type(override_parent) .. ".")
