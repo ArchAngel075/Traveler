@@ -25,7 +25,7 @@ SolverClass.Rule = "all_false_extras"
   free : any angle/direction
 --]]
 
-function SolverClass:init(Traveler,World,Start,End,Tag)
+function SolverClass:init(Traveler,World,Start,End)
   self.Traveler = Traveler
   self.World = World
   self.Solver = self

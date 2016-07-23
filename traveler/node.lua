@@ -40,7 +40,7 @@ function NodeClass:AddTag(Tag,cost)
 end
 
 function NodeClass:RemoveTag(Tag)
-  self.tags[Tag] = false 
+  self.tags[Tag] = nil 
 end
 
 function NodeClass:CompareTag(Tag)
@@ -49,7 +49,7 @@ end
 
 function NodeClass:CalculateG(alpha,override_parent)
   alpha = alpha or self.G_Alpha
-  alpha = (alpha)
+  alpha = (alpha)*2
   return 1 + alpha * (self:_CalculateG(override_parent) - 1)
 end
 
@@ -80,11 +80,10 @@ function NodeClass:GetH()
 end
 
 function NodeClass:_CalculateG(override_parent)
-  local internalCost = 0
+  local internalCost = self.InternalGCost
   for k,v in pairs(self.tags) do
     internalCost = internalCost + v
   end
-  internalCost = internalCost + self.InternalGCost
   local parent = override_parent or self.ParentNode or false
   if(parent) then
     if(class.isInstance(parent,self.Traveler.Node)) then
@@ -98,7 +97,7 @@ function NodeClass:_CalculateG(override_parent)
       error("Invalid type for 'override_parent', expected " .. tostring(self.Traveler.Node) .. "| got " .. type(override_parent) .. ".")
     end
   else
-    return 10
+    return internalCost
   end
 end
 

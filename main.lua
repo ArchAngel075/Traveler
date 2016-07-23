@@ -1,7 +1,7 @@
 if arg[#arg] == "-debug" then require("mobdebug").start() end
 local traveler = require("traveler")
 local MyWorld = traveler:newWorld(8,6)
-local MySolver = traveler:newSolver(MyWorld,{3,3},{7,3})
+local MySolver = traveler:newSolver(MyWorld,{1,3},{7,3})
 local offset_x = 0
 local offset_y = 0
 local scale_x = 1
@@ -12,12 +12,9 @@ function love.load()
   MySolver:AddTag("air")
   ConstructNeighbors()
   
-  MyWorld:GetNodeAt(5,1):AddTag("dirt")
-  MyWorld:GetNodeAt(5,2):AddTag("dirt")
-  MyWorld:GetNodeAt(5,3):AddTag("dirt")
-  MyWorld:GetNodeAt(5,4):SetInternalG(20)
-  MyWorld:GetNodeAt(5,5):AddTag("dirt")
-  --MyWorld:GetNodeAt(5,6):AddTag("dirt")
+  MyWorld:GetNodeAt(5,2):AddTag("air",100)
+  MyWorld:GetNodeAt(5,3):AddTag("water")
+  MyWorld:GetNodeAt(5,4):SetInternalG(50)
   
   MySolver:SetupSolver()
 end

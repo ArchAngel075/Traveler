@@ -15,7 +15,7 @@ local folderOfThisFile = (...):match("(.-)[^%.]+$")
 local class = require (folderOfThisFile .. "traveler.30log")
 local Traveler = class("Archis.Traveler.Traveler")
 local instance = Traveler() --singleton class that helps manage all of Traveler library functions
-
+Traveler._VERSION = "3.0.0.2"
 Traveler.Node = require(folderOfThisFile .. "traveler.node")
 Traveler.World = require(folderOfThisFile .. "traveler.world")
 Traveler.Solver = require(folderOfThisFile .. "traveler.solver")
@@ -71,8 +71,8 @@ function Traveler:newNode(x,y)
   return self.Node:new(self,x,y)
 end
 
-function Traveler:newSolver(World,Start,End,optional_tags)
-  return self.Solver:new(self,World,Start,End,optional_tags)
+function Traveler:newSolver(World,Start,End)
+  return self.Solver:new(self,World,Start,End)
 end
 
 function Traveler.DoesTableContain(tbl,itm)
